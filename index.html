@@ -3,1032 +3,888 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BINGO ANDINO 2026</title>
+<title>Wraps Guayacán — Reserva tu wrap con anticipación</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,900&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,600&family=Nunito+Sans:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --terracota:#C1502E;
-    --terracota-dark:#9C3D22;
-    --mostaza:#E8A33D;
-    --turquesa:#2A6F77;
-    --turquesa-dark:#1D4E54;
-    --crema:#F5EDE0;
-    --crema-2:#EFE3CE;
-    --tinta:#2B2016;
-    --rojo:#8B2635;
-    --ok:#4C7A51;
-    --pend:#C98A1B;
-    --rech:#A63D3D;
-    --radius:14px;
+    --verde-oscuro:#2F4F3A;
+    --verde-medio:#5C8A66;
+    --verde-claro:#DCE8DD;
+    --beige:#F3ECDD;
+    --crema:#FBF8F2;
+    --mostaza:#D9A441;
+    --mostaza-oscuro:#B98328;
+    --texto:#26332B;
+    --texto-suave:#5A6B5E;
+    --rojo:#C15B4A;
+    --blanco:#FFFFFF;
+    --sombra: 0 8px 24px rgba(47,79,58,0.10);
+    --radius: 18px;
   }
   *{box-sizing:border-box;}
-  body{
-    margin:0;
-    background:var(--crema);
-    color:var(--tinta);
-    font-family:'Manrope',sans-serif;
-    -webkit-font-smoothing:antialiased;
-  }
-  .zigzag{
-    height:10px;
-    background-image:
-      linear-gradient(135deg, var(--turquesa) 25%, transparent 25%),
-      linear-gradient(225deg, var(--turquesa) 25%, transparent 25%),
-      linear-gradient(45deg, var(--mostaza) 25%, transparent 25%),
-      linear-gradient(315deg, var(--mostaza) 25%, transparent 25%);
-    background-position: 10px 0,10px 0,0 0,0 0;
-    background-size: 20px 20px;
-    background-repeat: repeat-x;
-    background-color: var(--terracota);
-  }
-  header.top{
-    background:linear-gradient(180deg,var(--terracota) 0%,var(--terracota-dark) 100%);
-    color:#fff;
-    padding:28px 20px 22px;
-    text-align:center;
-    position:relative;
-  }
-  header.top h1{
-    font-family:'Fraunces',serif;
-    font-weight:900;
-    font-size:clamp(28px,5vw,44px);
-    letter-spacing:0.5px;
-    margin:0;
-    text-shadow:0 2px 0 rgba(0,0,0,0.15);
-  }
-  header.top .balls{
-    font-family:'JetBrains Mono',monospace;
-    font-weight:700;
-    letter-spacing:6px;
-    font-size:13px;
-    opacity:0.85;
-    margin-top:6px;
-  }
-  header.top p{
-    margin:6px 0 0;
-    font-size:14px;
-    opacity:0.92;
-    font-weight:600;
-  }
-  nav.tabs{
-    display:flex;
-    justify-content:center;
-    gap:8px;
-    padding:16px;
-    background:var(--crema-2);
-    border-bottom:2px solid #e2d3b0;
-  }
-  nav.tabs button{
-    font-family:'Manrope',sans-serif;
-    font-weight:800;
-    font-size:14px;
-    padding:10px 18px;
-    border-radius:999px;
-    border:2px solid var(--tinta);
-    background:transparent;
-    color:var(--tinta);
-    cursor:pointer;
-    transition:all .15s ease;
-  }
-  nav.tabs button.active{
-    background:var(--turquesa);
-    border-color:var(--turquesa-dark);
-    color:#fff;
-  }
-  main{
-    max-width:1000px;
-    margin:0 auto;
-    padding:22px 16px 60px;
-  }
-  .view{display:none;}
-  .view.active{display:block;}
-  .grid2{
-    display:grid;
-    grid-template-columns:1.2fr 1fr;
-    gap:20px;
-  }
-  @media (max-width:760px){ .grid2{grid-template-columns:1fr;} }
+  body{margin:0;background:var(--crema);color:var(--texto);font-family:'Nunito Sans',sans-serif;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3,.display{font-family:'Fraunces',serif;font-weight:600;color:var(--verde-oscuro);}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  a{color:inherit;}
+  button{font-family:inherit;cursor:pointer;}
+  .wrap-shell{max-width:640px;margin:0 auto;min-height:100vh;background:var(--crema);position:relative;}
+  .app-header{padding:22px 20px 18px;background:var(--verde-oscuro);color:var(--beige);position:sticky;top:0;z-index:20;}
+  .app-header .row{display:flex;justify-content:space-between;align-items:center;}
+  .app-header h1{color:var(--beige);font-size:22px;margin:0;letter-spacing:.2px;}
+  .app-header .sub{color:var(--verde-claro);font-size:13px;margin-top:2px;font-weight:600;}
+  .admin-link{background:transparent;border:1.5px solid var(--verde-claro);color:var(--verde-claro);border-radius:999px;padding:6px 14px;font-size:12px;font-weight:700;}
+  .admin-link:hover{background:rgba(255,255,255,0.08);}
 
-  .card{
-    background:#fff;
-    border-radius:var(--radius);
-    border:1px solid #e6d9bd;
-    box-shadow:0 3px 0 #e6d9bd;
-    padding:20px;
-  }
-  .card h2{
-    font-family:'Fraunces',serif;
-    font-weight:700;
-    font-size:20px;
-    margin:0 0 4px;
-    color:var(--terracota-dark);
-  }
-  .card .sub{
-    font-size:13px;
-    color:#6b5c46;
-    margin:0 0 16px;
-  }
-  label{
-    display:block;
-    font-size:12.5px;
-    font-weight:700;
-    text-transform:uppercase;
-    letter-spacing:.4px;
-    color:var(--turquesa-dark);
-    margin:14px 0 6px;
-  }
-  input[type=text], input[type=number], select{
-    width:100%;
-    padding:11px 12px;
-    border-radius:10px;
-    border:1.5px solid #d9c9a3;
-    background:#fffdf8;
-    font-family:'Manrope',sans-serif;
-    font-size:15px;
-    color:var(--tinta);
-  }
-  input:focus, select:focus{ outline:2px solid var(--turquesa); outline-offset:1px; }
-  .phone-row{ display:flex; gap:8px; align-items:center; }
-  .phone-row .prefix{
-    background:var(--crema-2);
-    border:1.5px solid #d9c9a3;
-    border-radius:10px;
-    padding:11px 12px;
-    font-weight:800;
-    font-family:'JetBrains Mono',monospace;
-  }
-  .price-box{
-    margin-top:16px;
-    background:var(--crema-2);
-    border:1.5px dashed var(--mostaza);
-    border-radius:10px;
-    padding:12px 14px;
-    font-size:14px;
-  }
-  .price-box b{ font-size:20px; color:var(--terracota-dark); font-family:'Fraunces',serif;}
-  .btn{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    gap:6px;
-    border:none;
-    border-radius:10px;
-    padding:12px 18px;
-    font-weight:800;
-    font-size:14.5px;
-    cursor:pointer;
-    font-family:'Manrope',sans-serif;
-    transition:transform .1s ease, opacity .15s ease;
-  }
-  .btn:active{transform:scale(0.98);}
-  .btn:disabled{opacity:.5; cursor:not-allowed;}
-  .btn-primary{ background:var(--terracota); color:#fff; width:100%; margin-top:16px; padding:14px; font-size:15.5px;}
-  .btn-secondary{ background:var(--turquesa); color:#fff; }
-  .btn-ghost{ background:#fff; border:1.5px solid var(--tinta); color:var(--tinta); }
-  .btn-wsp{ background:#25D366; color:#fff; }
-  .btn-sm{ padding:7px 11px; font-size:12.5px; border-radius:8px; }
+  /* Stepper styled like a perforated order ticket */
+  .stepper{display:flex;gap:6px;padding:14px 20px 0;background:var(--verde-oscuro);}
+  .stepper .dot{flex:1;height:6px;border-radius:4px;background:rgba(255,255,255,0.18);position:relative;}
+  .stepper .dot.done, .stepper .dot.active{background:var(--mostaza);}
+  .ticket-notch{height:14px;background:var(--verde-oscuro);position:relative;overflow:hidden;}
+  .ticket-notch::before{content:'';position:absolute;left:0;right:0;top:0;height:14px;background-image:radial-gradient(circle 7px at 12px 0, transparent 7px, var(--crema) 7.5px);background-size:24px 14px;background-repeat:repeat-x;}
 
-  .transfer-list{ font-size:14.5px; line-height:1.9; }
-  .transfer-list .row{ display:flex; justify-content:space-between; border-bottom:1px dotted #ddcda6; padding:4px 0;}
-  .transfer-list .row b{ font-family:'JetBrains Mono',monospace; }
+  .content{padding:24px 20px 120px;}
+  .step-title{font-size:22px;margin:0 0 4px;}
+  .step-desc{color:var(--texto-suave);font-size:14px;margin:0 0 20px;}
 
-  .badge{
-    display:inline-block;
-    padding:3px 10px;
-    border-radius:999px;
-    font-size:11.5px;
-    font-weight:800;
-    text-transform:uppercase;
-    letter-spacing:.3px;
-  }
-  .badge.pendiente{ background:#FBE9C6; color:var(--pend); }
-  .badge.aceptada{ background:#DCEBD9; color:var(--ok); }
-  .badge.rechazada{ background:#F3D9D9; color:var(--rech); }
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-weight:800;font-size:13px;color:var(--verde-oscuro);margin-bottom:6px;}
+  .field input, .field textarea{width:100%;padding:14px 16px;border-radius:14px;border:2px solid var(--verde-claro);background:var(--blanco);font-size:16px;font-family:inherit;color:var(--texto);}
+  .field input:focus, .field textarea:focus{outline:none;border-color:var(--mostaza);}
+  .field .hint{font-size:12px;color:var(--texto-suave);margin-top:4px;}
+  .field .error{font-size:12px;color:var(--rojo);margin-top:4px;font-weight:700;display:none;}
+  .field.invalid input{border-color:var(--rojo);}
+  .field.invalid .error{display:block;}
+  .tel-wrap{display:flex;align-items:center;gap:8px;border:2px solid var(--verde-claro);border-radius:14px;background:var(--blanco);padding:0 16px;}
+  .tel-wrap.invalid{border-color:var(--rojo);}
+  .tel-prefix{font-weight:800;color:var(--verde-oscuro);}
+  .tel-wrap input{border:none;padding:14px 4px;background:transparent;}
+  .tel-wrap input:focus{outline:none;}
 
-  .confirm-box{ text-align:center; }
-  .confirm-box .range{
-    font-family:'JetBrains Mono',monospace;
-    font-weight:700;
-    font-size:22px;
-    background:var(--turquesa);
-    color:#fff;
-    padding:10px 16px;
-    border-radius:10px;
-    display:inline-block;
-    margin:10px 0;
-  }
-  .note{ font-size:12.5px; color:#7a6a4f; margin-top:10px; }
+  .btn-primary{width:100%;background:var(--mostaza);color:var(--verde-oscuro);border:none;padding:16px;border-radius:16px;font-weight:900;font-size:16px;box-shadow:var(--sombra);transition:transform .15s ease;}
+  .btn-primary:active{transform:scale(0.98);}
+  .btn-primary:disabled{background:#E4DCC8;color:#A79E86;box-shadow:none;cursor:not-allowed;}
+  .btn-secondary{width:100%;background:transparent;color:var(--verde-oscuro);border:2px solid var(--verde-medio);padding:13px;border-radius:16px;font-weight:800;font-size:15px;}
+  .btn-ghost{background:transparent;border:none;color:var(--verde-medio);font-weight:800;font-size:14px;text-decoration:underline;padding:6px 0;}
 
-  /* ADMIN */
-  .login-box{ max-width:340px; margin:60px auto; text-align:center;}
-  .stats{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:10px;
-    margin-bottom:18px;
-  }
-  @media (max-width:760px){ .stats{grid-template-columns:repeat(2,1fr);} }
-  .stat{
-    background:#fff;
-    border-radius:12px;
-    border:1px solid #e6d9bd;
-    padding:12px 14px;
-    text-align:center;
-  }
-  .stat .n{ font-family:'Fraunces',serif; font-weight:800; font-size:22px; color:var(--terracota-dark);}
-  .stat .l{ font-size:11px; text-transform:uppercase; letter-spacing:.4px; color:#7a6a4f; font-weight:700;}
+  .footer-bar{position:fixed;left:0;right:0;bottom:0;max-width:640px;margin:0 auto;background:linear-gradient(180deg,rgba(251,248,242,0),var(--crema) 30%);padding:18px 20px 20px;}
+  .footer-bar .row-btns{display:flex;gap:10px;}
 
-  .toolbar{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:14px;}
-  .toolbar input[type=text]{ flex:1; min-width:160px; }
-  .filter-chip{
-    padding:7px 13px; border-radius:999px; border:1.5px solid var(--tinta);
-    background:#fff; font-weight:700; font-size:12.5px; cursor:pointer;
-  }
-  .filter-chip.active{ background:var(--tinta); color:#fff; }
+  /* Wrap type cards on home */
+  .menu-price{background:var(--verde-claro);color:var(--verde-oscuro);display:inline-block;padding:6px 14px;border-radius:999px;font-weight:800;font-size:14px;margin-bottom:18px;}
+  .home-msg{font-size:20px;line-height:1.3;margin:0 0 6px;}
+  .home-sub{color:var(--texto-suave);font-size:14px;margin:0 0 16px;}
+  .deadline{background:var(--beige);border:1.5px dashed var(--mostaza-oscuro);border-radius:14px;padding:12px 14px;font-size:13px;font-weight:700;color:var(--mostaza-oscuro);margin-bottom:18px;}
+  .deadline.closed{background:#F6E2DD;border-color:var(--rojo);color:var(--rojo);}
+  .product-card{display:flex;gap:14px;background:var(--blanco);border-radius:var(--radius);padding:16px;margin-bottom:14px;box-shadow:var(--sombra);align-items:center;}
+  .product-emoji{width:64px;height:64px;border-radius:16px;background:var(--verde-claro);display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0;}
+  .product-info h3{margin:0 0 2px;font-size:17px;}
+  .product-info p{margin:0;color:var(--texto-suave);font-size:13px;}
 
-  table{ width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; font-size:13px;}
-  th{ background:var(--turquesa-dark); color:#fff; text-align:left; padding:9px 10px; font-size:11px; text-transform:uppercase; letter-spacing:.3px;}
-  td{ padding:9px 10px; border-bottom:1px solid #f0e6cc; vertical-align:middle;}
-  tr:last-child td{ border-bottom:none;}
-  .row-actions{ display:flex; gap:6px; flex-wrap:wrap; }
-  .table-wrap{ overflow-x:auto; border-radius:12px; border:1px solid #e6d9bd;}
+  /* Wrap builder cards (step 2) */
+  .wrap-card{background:var(--blanco);border-radius:var(--radius);padding:18px;margin-bottom:16px;box-shadow:var(--sombra);border:2px solid transparent;}
+  .wrap-card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+  .wrap-card-head h3{margin:0;font-size:16px;color:var(--verde-oscuro);}
+  .remove-wrap{color:var(--rojo);background:none;border:none;font-weight:800;font-size:13px;}
+  .choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+  .choice-btn{padding:12px 8px;border-radius:12px;border:2px solid var(--verde-claro);background:var(--crema);font-weight:800;font-size:13px;color:var(--texto);text-align:center;}
+  .choice-btn.selected{background:var(--verde-oscuro);border-color:var(--verde-oscuro);color:var(--blanco);}
+  .ingr-counter{font-size:12px;font-weight:800;color:var(--texto-suave);margin-bottom:8px;}
+  .ingr-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px;}
+  .ingr-chip{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:12px;border:2px solid var(--verde-claro);font-size:13px;font-weight:700;background:var(--crema);}
+  .ingr-chip.checked{background:var(--mostaza);border-color:var(--mostaza);color:var(--verde-oscuro);}
+  .ingr-chip.disabled{opacity:.4;}
+  .ingr-msg{font-size:12px;color:var(--mostaza-oscuro);font-weight:700;margin:2px 0 10px;display:none;}
+  .bebida-row{display:flex;gap:8px;}
+  .veg-warn{font-size:12px;color:var(--rojo);font-weight:700;margin-top:6px;display:none;}
+  .add-wrap-btn{width:100%;border:2px dashed var(--verde-medio);background:transparent;color:var(--verde-oscuro);border-radius:16px;padding:14px;font-weight:800;font-size:14px;}
 
-  #copyToast{
-    position:fixed; bottom:20px; left:50%; transform:translateX(-50%) translateY(20px);
-    background:var(--tinta); color:#fff; padding:10px 18px; border-radius:999px;
-    font-size:13px; font-weight:700; opacity:0; pointer-events:none; transition:all .25s ease;
-    z-index:99;
-  }
-  #copyToast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+  /* Summary */
+  .summary-card{background:var(--blanco);border-radius:var(--radius);padding:16px;margin-bottom:12px;box-shadow:var(--sombra);}
+  .summary-card h4{margin:0 0 8px;font-size:14px;color:var(--verde-oscuro);}
+  .summary-row{display:flex;justify-content:space-between;font-size:13px;padding:3px 0;color:var(--texto-suave);}
+  .summary-row b{color:var(--texto);}
+  .total-line{display:flex;justify-content:space-between;align-items:center;background:var(--verde-oscuro);color:var(--beige);border-radius:14px;padding:14px 18px;margin:16px 0;}
+  .total-line .amt{font-family:'Fraunces',serif;font-size:24px;font-weight:700;color:var(--mostaza);}
 
-  .err{ color:var(--rech); font-size:13px; font-weight:700; margin-top:8px; }
-  .spinner{ font-size:13px; color:#7a6a4f; }
-  select.estado-select{ font-size:12.5px; padding:6px 8px;}
+  /* Bank transfer */
+  .bank-card{background:var(--beige);border-radius:var(--radius);padding:18px;margin-bottom:16px;}
+  .bank-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(47,79,58,0.1);font-size:14px;}
+  .bank-row:last-child{border-bottom:none;}
+  .bank-row span:first-child{color:var(--texto-suave);font-weight:700;}
+  .bank-row span:last-child{font-weight:800;text-align:right;}
+  .copy-btn{width:100%;background:var(--verde-oscuro);color:var(--beige);border:none;padding:15px;border-radius:14px;font-weight:800;margin-top:12px;}
+  .copy-toast{text-align:center;color:var(--verde-medio);font-weight:800;font-size:13px;margin-top:8px;display:none;}
+  .checkbox-row{display:flex;gap:10px;align-items:flex-start;background:var(--blanco);border-radius:14px;padding:14px;margin:16px 0;box-shadow:var(--sombra);}
+  .checkbox-row input{width:20px;height:20px;margin-top:2px;accent-color:var(--mostaza-oscuro);}
+  .checkbox-row label{font-size:13px;font-weight:700;color:var(--texto);}
+  .wa-btn{width:100%;background:#25D366;color:#fff;border:none;padding:16px;border-radius:16px;font-weight:900;font-size:15px;}
+  .wa-btn:disabled{background:#CFE9D6;color:#8fb89b;cursor:not-allowed;}
 
-  .called-grid, .number-pad{
-    display:grid;
-    grid-template-columns:repeat(15,1fr);
-    gap:4px;
+  /* Confirmation ticket */
+  .ticket{background:var(--blanco);border-radius:var(--radius);box-shadow:var(--sombra);padding:24px;text-align:center;position:relative;margin:20px 0;}
+  .ticket .check{width:56px;height:56px;border-radius:50%;background:var(--verde-claro);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:28px;color:var(--verde-oscuro);}
+  .ticket .codigo{font-family:'JetBrains Mono',monospace;font-size:26px;font-weight:700;letter-spacing:2px;color:var(--verde-oscuro);background:var(--beige);border-radius:10px;padding:10px;margin:14px 0;}
+  .ticket-detail{text-align:left;border-top:2px dashed var(--verde-claro);margin-top:16px;padding-top:14px;}
+  .ticket-detail .row{display:flex;justify-content:space-between;font-size:13px;padding:4px 0;}
+
+  /* Admin */
+  .admin-shell{max-width:1100px;margin:0 auto;padding:0 0 60px;}
+  .admin-topbar{background:var(--verde-oscuro);color:var(--beige);padding:18px 24px;display:flex;justify-content:space-between;align-items:center;}
+  .admin-topbar h1{color:var(--beige);font-size:20px;margin:0;}
+  .admin-body{padding:24px;}
+  .login-box{max-width:360px;margin:80px auto;background:var(--blanco);border-radius:var(--radius);padding:28px;box-shadow:var(--sombra);text-align:center;}
+  .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:24px;}
+  .kpi{background:var(--blanco);border-radius:14px;padding:16px;box-shadow:var(--sombra);}
+  .kpi .num{font-family:'Fraunces',serif;font-size:26px;font-weight:700;color:var(--verde-oscuro);}
+  .kpi .lbl{font-size:12px;color:var(--texto-suave);font-weight:700;}
+  .filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
+  .filters input, .filters select{padding:9px 12px;border-radius:10px;border:1.5px solid var(--verde-claro);font-size:13px;font-family:inherit;background:var(--blanco);}
+  .table-wrap{overflow-x:auto;background:var(--blanco);border-radius:var(--radius);box-shadow:var(--sombra);}
+  table{border-collapse:collapse;width:100%;font-size:13px;}
+  th{background:var(--verde-claro);color:var(--verde-oscuro);text-align:left;padding:10px 12px;white-space:nowrap;position:sticky;top:0;}
+  td{padding:10px 12px;border-bottom:1px solid #F0EDE3;white-space:nowrap;}
+  .badge{padding:4px 10px;border-radius:999px;font-size:11px;font-weight:800;}
+  .badge.amarillo{background:#FCEFC7;color:#8A6D1B;}
+  .badge.verde{background:#DCEFDD;color:#2F6B3A;}
+  .badge.rojo{background:#F6DCD8;color:#A3382A;}
+  .row-actions button{border:none;padding:6px 10px;border-radius:8px;font-size:11px;font-weight:800;margin-right:4px;cursor:pointer;}
+  .act-confirm{background:var(--verde-claro);color:var(--verde-oscuro);}
+  .act-reject{background:#F6DCD8;color:#A3382A;}
+  .act-entrega{background:var(--beige);color:var(--mostaza-oscuro);}
+  .export-row{display:flex;gap:10px;margin-bottom:16px;}
+  .export-row button{background:var(--blanco);border:2px solid var(--verde-medio);color:var(--verde-oscuro);padding:10px 16px;border-radius:12px;font-weight:800;font-size:13px;}
+  .config-panel{background:var(--blanco);border-radius:var(--radius);padding:20px;box-shadow:var(--sombra);margin-top:24px;}
+  .config-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .config-grid .field{margin-bottom:0;}
+  .modal-bg{position:fixed;inset:0;background:rgba(38,51,43,0.5);display:none;align-items:center;justify-content:center;z-index:50;}
+  .modal-bg.open{display:flex;}
+  .modal{background:var(--blanco);border-radius:16px;padding:24px;width:90%;max-width:400px;}
+
+  .hidden{display:none !important;}
+  @media(min-width:720px){
+    .choice-grid, .ingr-grid{grid-template-columns:1fr 1fr;}
   }
-  @media (max-width:600px){
-    .called-grid, .number-pad{ grid-template-columns:repeat(8,1fr); }
-  }
-  .num-cell{
-    aspect-ratio:1;
-    display:flex; align-items:center; justify-content:center;
-    border-radius:6px;
-    font-family:'JetBrains Mono',monospace;
-    font-weight:700;
-    font-size:10.5px;
-    border:1.5px solid #d9c9a3;
-    background:#fffdf8;
-    color:#9c8a68;
-  }
-  .num-cell.called{ background:var(--turquesa); border-color:var(--turquesa-dark); color:#fff; }
-  .num-cell.clickable{ cursor:pointer; }
-  .num-cell.clickable:active{ transform:scale(0.9); }
 </style>
 </head>
 <body>
 
-<header class="top">
-  <h1>BINGO ANDINO 2026</h1>
-  <div class="balls">● B · I · N · G · O ●</div>
-  <p>Colegio Andino Montessori — 1.000 cartones en juego</p>
-</header>
-<div class="zigzag"></div>
-
-<nav class="tabs">
-  <button class="active" data-view="comprar">🎟️ Comprar cartones</button>
-  <button data-view="juego">🎱 Juego en vivo</button>
-  <button data-view="admin">🔐 Panel administración</button>
-</nav>
-
-<main>
-
-  <!-- ================= VISTA COMPRAR ================= -->
-  <section id="view-comprar" class="view active">
-    <div class="grid2">
-      <div class="card" id="formCardWrap">
-        <h2>Reserva tus cartones</h2>
-        <p class="sub">Completa tus datos, transfiere y notifica tu compra.</p>
-
-        <form id="purchaseForm">
-          <label>Nombre del comprador (apoderado)</label>
-          <input type="text" id="nombreComprador" required>
-
-          <label>Email</label>
-          <input type="text" id="email" placeholder="tucorreo@ejemplo.com" required>
-
-          <label>Nombre del alumno/a</label>
-          <input type="text" id="nombreAlumno" required>
-
-          <label>Curso</label>
-          <input type="text" id="curso" placeholder="Ej: 3° Básico Guayacán" required>
-
-          <label>WhatsApp</label>
-          <div class="phone-row">
-            <span class="prefix">+56</span>
-            <input type="text" id="whatsapp" maxlength="9" placeholder="9 dígitos, sin espacios" required>
-          </div>
-
-          <div id="cantidadBlock" style="display:none;">
-            <label>Cantidad de cartones</label>
-            <input type="number" id="cantidad" min="1" value="1">
-          </div>
-
-          <div class="price-box" id="priceBox">
-            Ingresa tu WhatsApp para calcular el precio.
-          </div>
-
-          <button type="submit" class="btn btn-primary" id="submitBtn">📢 Notificar compra</button>
-          <div class="err" id="formErr"></div>
-        </form>
-      </div>
-
+<!-- ================= CLIENTE ================= -->
+<div id="clientApp" class="wrap-shell">
+  <div class="app-header">
+    <div class="row">
       <div>
-        <div class="card">
-          <h2>Datos para transferir</h2>
-          <p class="sub">Transfiere el monto exacto y guarda tu comprobante.</p>
-          <div class="transfer-list" id="transferList">
-            <div class="row"><span>Nombre</span><b>PATRICIA BRAVO ALCAINO</b></div>
-            <div class="row"><span>RUT</span><b>16.859.492-5</b></div>
-            <div class="row"><span>Banco</span><b>Banco Estado</b></div>
-            <div class="row"><span>Cuenta</span><b>Cuenta Corriente</b></div>
-            <div class="row"><span>N° Cuenta</span><b>33000074697</b></div>
-            <div class="row"><span>Email</span><b>Patriciacbravoalcaino@gmail.com</b></div>
-          </div>
-          <button class="btn btn-ghost" style="width:100%;margin-top:14px;" onclick="copyTransferData()">📋 Copiar datos de transferencia</button>
+        <h1>🌯 Wraps Guayacán</h1>
+        <div class="sub">Reserva tu wrap con anticipación</div>
+      </div>
+      <button class="admin-link" onclick="goAdmin()">Panel admin</button>
+    </div>
+  </div>
+  <div class="stepper" id="stepperDots"></div>
+  <div class="ticket-notch"></div>
+
+  <div class="content">
+
+    <!-- STEP 0: HOME -->
+    <div class="step" id="step-0">
+      <p class="home-msg">Reserva el almuerzo con anticipación.</p>
+      <p class="home-sub">Cada opción incluye un wrap más un jugo o agua.</p>
+      <div class="menu-price" id="precioMenuLabel">$4.990 por menú</div>
+      <div id="deadlineBox" class="deadline hidden"></div>
+
+      <div class="product-card">
+        <div class="product-emoji">🐔</div>
+        <div class="product-info"><h3>Wrap de pollo</h3><p>Wrap relleno con pollo y acompañamientos.</p></div>
+      </div>
+      <div class="product-card">
+        <div class="product-emoji">🥩</div>
+        <div class="product-info"><h3>Wrap de carne</h3><p>Wrap relleno con carne y acompañamientos.</p></div>
+      </div>
+      <div class="product-card">
+        <div class="product-emoji">🥬</div>
+        <div class="product-info"><h3>Wrap vegetariano</h3><p>Wrap relleno con vegetales y acompañamientos.</p></div>
+      </div>
+      <div class="product-card">
+        <div class="product-emoji">🐟</div>
+        <div class="product-info"><h3>Wrap de atún</h3><p>Wrap relleno con atún y acompañamientos.</p></div>
+      </div>
+
+      <button class="btn-primary" id="startBtn" onclick="goStep(1)">Seleccionar</button>
+    </div>
+
+    <!-- STEP 1: DATOS ALUMNO -->
+    <div class="step hidden" id="step-1">
+      <h2 class="step-title">Datos del alumno</h2>
+      <p class="step-desc">Para saber a quién entregarle el wrap.</p>
+      <div class="field" id="f-nombreAlumno">
+        <label>Nombre del alumno</label>
+        <input type="text" placeholder="Ej: Emilia Rojas">
+        <div class="error">Ingresa el nombre del alumno.</div>
+      </div>
+      <div class="field" id="f-curso">
+        <label>Curso</label>
+        <input type="text" value="Guayacán" placeholder="Ej: Guayacán">
+        <div class="error">Ingresa el curso.</div>
+      </div>
+    </div>
+
+    <!-- STEP 2: WRAPS -->
+    <div class="step hidden" id="step-2">
+      <h2 class="step-title">Elige tus wraps</h2>
+      <p class="step-desc">Puedes agregar más de un wrap y personalizar cada uno.</p>
+      <div id="wrapsContainer"></div>
+      <button class="add-wrap-btn" onclick="addWrap()">+ Agregar otro wrap</button>
+    </div>
+
+    <!-- STEP 3: DATOS COMPRADOR -->
+    <div class="step hidden" id="step-3">
+      <h2 class="step-title">Tus datos de contacto</h2>
+      <p class="step-desc">Los usaremos para confirmar tu pedido.</p>
+      <div class="field" id="f-nombreApoderado">
+        <label>Nombre del apoderado o comprador</label>
+        <input type="text" placeholder="Tu nombre completo">
+        <div class="error">Ingresa tu nombre.</div>
+      </div>
+      <div class="field" id="f-correo">
+        <label>Correo electrónico</label>
+        <input type="email" placeholder="tucorreo@ejemplo.com">
+        <div class="error">Ingresa un correo válido.</div>
+      </div>
+      <div class="field" id="f-telefono">
+        <label>Teléfono</label>
+        <div class="tel-wrap">
+          <span class="tel-prefix">+56 9</span>
+          <input type="tel" maxlength="9" placeholder="1234 5678" oninput="this.value=this.value.replace(/\D/g,'').slice(0,8)">
         </div>
+        <div class="hint">Ejemplo: +56 9 1234 5678</div>
+        <div class="error">Ingresa 8 números después del 9.</div>
+      </div>
+      <div class="field">
+        <label>Observaciones o restricciones alimentarias (opcional)</label>
+        <textarea rows="3" placeholder="Ej: alergia al maní"></textarea>
+      </div>
+    </div>
 
-        <div class="card" style="margin-top:16px;">
-          <h2 style="font-size:16px;">Precios</h2>
-          <p style="font-size:13.5px; line-height:1.7; margin:0;">
-            🎉 <b>Primera compra</b> por persona: 7 cartones fijos por <b>$5.000</b><br>
-            🎫 Compras siguientes: <b>$1.000</b> por cartón, la cantidad que quieras.
-          </p>
+    <!-- STEP 4: RESUMEN + PAGO -->
+    <div class="step hidden" id="step-4">
+      <h2 class="step-title">Confirma y transfiere</h2>
+      <p class="step-desc">Revisa tu pedido antes de pagar.</p>
+      <div id="resumenWraps"></div>
+      <div class="total-line"><span>Total a transferir</span><span class="amt" id="totalAmt">$0</span></div>
+
+      <div class="bank-card">
+        <div class="bank-row"><span>Titular</span><span id="b-titular">—</span></div>
+        <div class="bank-row"><span>RUT</span><span id="b-rut">—</span></div>
+        <div class="bank-row"><span>Banco</span><span id="b-banco">—</span></div>
+        <div class="bank-row"><span>Tipo de cuenta</span><span id="b-tipoCuenta">—</span></div>
+        <div class="bank-row"><span>N° de cuenta</span><span id="b-numeroCuenta">—</span></div>
+        <div class="bank-row"><span>Correo</span><span id="b-correoTitular">—</span></div>
+        <div class="bank-row"><span>Monto exacto</span><span id="b-monto">—</span></div>
+        <div class="bank-row"><span>Mensaje sugerido</span><span id="b-mensaje">—</span></div>
+        <button class="copy-btn" onclick="copiarDatos()">📋 Copiar datos de transferencia</button>
+        <div class="copy-toast" id="copyToast">Datos copiados correctamente ✅</div>
+      </div>
+
+      <div class="checkbox-row">
+        <input type="checkbox" id="confirmTransferCheck" onchange="toggleWaBtn()">
+        <label for="confirmTransferCheck">He realizado la transferencia por el monto indicado.</label>
+      </div>
+      <button class="wa-btn" id="waBtn" disabled onclick="enviarPedido()">📲 Enviar comprobante por WhatsApp</button>
+    </div>
+
+    <!-- STEP 5: CONFIRMACION -->
+    <div class="step hidden" id="step-5">
+      <div class="ticket">
+        <div class="check">✓</div>
+        <h2 class="step-title" style="margin-bottom:2px;">Tu pedido fue registrado correctamente.</h2>
+        <p class="step-desc" style="margin-bottom:0;">Recuerda enviar el comprobante por WhatsApp para que podamos confirmar tu compra.</p>
+        <div class="codigo mono" id="finalCodigo">GUA-0000</div>
+        <div class="ticket-detail" id="finalDetail"></div>
+      </div>
+      <button class="btn-secondary" onclick="location.reload()">Hacer otro pedido</button>
+    </div>
+
+  </div>
+
+  <div class="footer-bar" id="footerBar">
+    <div class="row-btns">
+      <button class="btn-secondary hidden" id="backBtn" onclick="prevStep()" style="flex:0 0 90px;">Atrás</button>
+      <button class="btn-primary hidden" id="nextBtn" onclick="nextStep()">Continuar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= ADMIN ================= -->
+<div id="adminApp" class="admin-shell hidden">
+  <div class="admin-topbar">
+    <h1>🌯 Wraps Guayacán — Panel administrativo</h1>
+    <button class="admin-link" onclick="goClient()">← Volver a la app</button>
+  </div>
+
+  <div id="adminLogin" class="login-box">
+    <h2 style="margin-top:0;">Ingresa la contraseña</h2>
+    <div class="field"><input type="password" id="adminPass" placeholder="Contraseña"></div>
+    <button class="btn-primary" onclick="loginAdmin()">Entrar</button>
+    <p id="adminLoginError" style="color:var(--rojo);font-weight:700;font-size:13px;display:none;">Contraseña incorrecta</p>
+  </div>
+
+  <div id="adminBody" class="admin-body hidden">
+    <div class="kpi-grid" id="kpiGrid"></div>
+
+    <div class="export-row">
+      <button onclick="exportCSV()">⬇️ Exportar CSV</button>
+      <button onclick="window.print()">🖨️ Imprimir / PDF</button>
+      <button onclick="cargarPedidos()">🔄 Actualizar</button>
+    </div>
+
+    <div class="filters">
+      <input type="text" id="fBusqueda" placeholder="Buscar alumno, código, correo..." oninput="renderTabla()">
+      <select id="fEstadoPago" onchange="renderTabla()">
+        <option value="">Estado pago (todos)</option>
+        <option>Comprobante enviado – pendiente de revisión</option>
+        <option>Transferencia confirmada</option>
+        <option>Transferencia rechazada</option>
+        <option>Pedido cancelado</option>
+      </select>
+      <select id="fEstadoEntrega" onchange="renderTabla()">
+        <option value="">Estado entrega (todos)</option>
+        <option>Pendiente de entrega</option>
+        <option>Preparado</option>
+        <option>Entregado</option>
+        <option>No retirado</option>
+      </select>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Código</th><th>Fecha</th><th>Alumno</th><th>Curso</th><th>Apoderado</th>
+            <th>Correo</th><th>Teléfono</th><th>Wraps</th><th>Cant.</th><th>Total</th>
+            <th>Pago</th><th>Entrega</th><th>Obs.</th><th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="tablaBody"></tbody>
+      </table>
+    </div>
+
+    <div class="config-panel">
+      <h3 style="margin-top:0;">Configuración</h3>
+      <div class="config-grid">
+        <div class="field"><label>Titular</label><input id="cfg-titular"></div>
+        <div class="field"><label>RUT</label><input id="cfg-rut"></div>
+        <div class="field"><label>Banco</label><input id="cfg-banco"></div>
+        <div class="field"><label>Tipo de cuenta</label><input id="cfg-tipoCuenta"></div>
+        <div class="field"><label>N° de cuenta</label><input id="cfg-numeroCuenta"></div>
+        <div class="field"><label>Correo titular</label><input id="cfg-correoTitular"></div>
+        <div class="field"><label>WhatsApp admin (sin +)</label><input id="cfg-whatsappAdmin"></div>
+        <div class="field"><label>Precio menú</label><input id="cfg-precioMenu" type="number"></div>
+        <div class="field"><label>Fecha límite pedidos</label><input id="cfg-fechaLimite" type="datetime-local"></div>
+        <div class="field"><label>Ventas abiertas</label>
+          <select id="cfg-ventasAbiertas"><option value="true">Sí</option><option value="false">No (cerrado)</option></select>
         </div>
-
-        <div class="card" style="margin-top:16px;">
-          <h2 style="font-size:16px;">¿Ya compraste?</h2>
-          <p class="sub">Consulta el estado de tu última compra.</p>
-          <div class="phone-row">
-            <span class="prefix">+56</span>
-            <input type="text" id="statusPhone" maxlength="9" placeholder="Tu WhatsApp">
-          </div>
-          <button class="btn btn-secondary" style="width:100%;margin-top:10px;" onclick="checkMyStatus()">🔍 Consultar estado</button>
-          <div id="statusResult"></div>
-        </div>
       </div>
+      <button class="btn-primary" style="margin-top:8px;" onclick="guardarConfig()">Guardar configuración</button>
+      <p class="copy-toast" id="cfgToast" style="display:none;">Configuración guardada ✅</p>
     </div>
+  </div>
+</div>
 
-    <!-- Confirmación tras enviar -->
-    <div class="card confirm-box" id="confirmBox" style="display:none; margin-top:20px;"></div>
-  </section>
-
-  <!-- ================= VISTA JUEGO EN VIVO ================= -->
-  <section id="view-juego" class="view">
-    <div class="card" style="text-align:center;">
-      <h2 style="font-size:15px;">Último número cantado</h2>
-      <div id="lastCalled" style="font-family:'Fraunces',serif;font-weight:900;font-size:52px;color:var(--terracota-dark);">—</div>
-    </div>
-
-    <div class="card" style="margin-top:16px;">
-      <h2>Números cantados (<span id="calledCount">0</span>/75)</h2>
-      <div id="calledGrid" class="called-grid"></div>
-    </div>
-
-    <div class="card" style="margin-top:16px;">
-      <h2>Verificar cartón ganador</h2>
-      <p class="sub">Cualquiera puede revisar aquí si su cartón ganó, según lo cantado hasta ahora.</p>
-      <div class="phone-row">
-        <span class="prefix">BA-</span>
-        <input type="text" id="verifyCardInput" maxlength="4" placeholder="0007">
-      </div>
-      <button class="btn btn-secondary" style="width:100%;margin-top:10px;" onclick="verifyCardUI()">🔍 Verificar</button>
-      <div id="verifyResult"></div>
-    </div>
-
-    <div class="card" style="margin-top:16px;">
-      <h2>🎛️ Modo operador</h2>
-      <div id="operatorLocked">
-        <p class="sub">Solo quien esté cantando los números del bolillero. Ingresa la clave de administración.</p>
-        <input type="text" id="operatorPass" placeholder="Contraseña">
-        <button class="btn btn-primary" style="width:100%;margin-top:10px;" onclick="operatorUnlock()">Desbloquear</button>
-        <div class="err" id="operatorErr"></div>
-      </div>
-      <div id="operatorControls" style="display:none;">
-        <p class="sub">Toca el número que acaba de salir del bolillero para registrarlo.</p>
-        <div id="numberPad" class="number-pad"></div>
-        <div style="display:flex; gap:8px; margin-top:14px;">
-          <button class="btn btn-ghost" style="flex:1;" onclick="undoLastCalled()">↩️ Deshacer último</button>
-          <button class="btn" style="flex:1;background:var(--rech);color:#fff;" onclick="resetGameConfirm()">🗑️ Reiniciar juego</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= VISTA ADMIN ================= -->
-  <section id="view-admin" class="view">
-
-    <div class="login-box card" id="loginBox">
-      <h2>Acceso administración</h2>
-      <label>Contraseña</label>
-      <input type="text" id="adminPass" placeholder="••••••••">
-      <button class="btn btn-primary" onclick="adminLogin()">Ingresar</button>
-      <div class="err" id="loginErr"></div>
-    </div>
-
-    <div id="adminPanel" style="display:none;">
-      <div class="stats">
-        <div class="stat"><div class="n" id="statRecaudado">$0</div><div class="l">Recaudado (aceptadas)</div></div>
-        <div class="stat"><div class="n" id="statVendidos">0</div><div class="l">Cartones vendidos</div></div>
-        <div class="stat"><div class="n" id="statDisponibles">0</div><div class="l">Cartones disponibles</div></div>
-        <div class="stat"><div class="n" id="statPendientes">0</div><div class="l">Pendientes por revisar</div></div>
-      </div>
-
-      <div class="toolbar">
-        <button class="filter-chip active" data-estado="todas">Todas</button>
-        <button class="filter-chip" data-estado="pendiente">Pendientes</button>
-        <button class="filter-chip" data-estado="aceptada">Aceptadas</button>
-        <button class="filter-chip" data-estado="rechazada">Rechazadas</button>
-        <input type="text" id="searchBox" placeholder="Buscar comprador, alumno o curso...">
-        <button class="btn btn-secondary btn-sm" onclick="loadPurchases()">🔄 Actualizar</button>
-        <button class="btn btn-ghost btn-sm" onclick="exportExcel()">📊 Exportar Excel</button>
-        <button class="btn btn-sm" style="background:var(--rech);color:#fff;" onclick="openResetModal()">🗑️ Resetear todo</button>
-      </div>
-
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th><th>Fecha</th><th>Comprador</th><th>Email</th><th>Alumno</th><th>Curso</th>
-              <th>WhatsApp</th><th>Cartones</th><th>Monto</th><th>Estado</th><th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody id="tableBody"></tbody>
-        </table>
-      </div>
-      <p class="spinner" id="loadingMsg" style="display:none;">Cargando...</p>
-    </div>
-  </section>
-
-</main>
-
-<div id="copyToast">Copiado ✔</div>
-
-<div id="resetModalOverlay" style="display:none; position:fixed; inset:0; background:rgba(43,32,22,0.55); z-index:200; align-items:center; justify-content:center;">
-  <div class="card" style="max-width:380px; margin:0 16px;">
-    <h2 style="color:var(--rech);">⚠️ Resetear todo</h2>
-    <p class="sub">Esto borra <b>todas</b> las compras registradas (pendientes, aceptadas y rechazadas) de la planilla. No se puede deshacer.</p>
-    <label>Escribe <b>BORRAR TODO</b> para confirmar</label>
-    <input type="text" id="resetConfirmInput" placeholder="BORRAR TODO">
-    <div style="display:flex; gap:8px; margin-top:16px;">
-      <button class="btn btn-ghost" style="flex:1;" onclick="closeResetModal()">Cancelar</button>
-      <button class="btn" style="flex:1; background:var(--rech); color:#fff;" onclick="confirmResetAll()">Sí, borrar todo</button>
-    </div>
-    <div class="err" id="resetErr"></div>
+<!-- Modal rechazo -->
+<div class="modal-bg" id="rejectModal">
+  <div class="modal">
+    <h3 style="margin-top:0;">Motivo del rechazo</h3>
+    <div class="field"><textarea id="rejectMotivo" rows="3" placeholder="Ej: el monto no coincide"></textarea></div>
+    <button class="btn-primary" onclick="confirmarRechazo()">Enviar rechazo</button>
+    <button class="btn-ghost" onclick="closeModal()">Cancelar</button>
   </div>
 </div>
 
 <script>
-/* ============ CONFIGURACIÓN ============ */
-// ⚠️ Reemplaza esto con la URL de tu implementación de Apps Script (termina en /exec)
-const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbzE88LzoK5GfvXlMJHrg_OokCs3oCsF7cSr5WDcHV04EGeuazyvK6Zov2-ddcHzopoT/exec';
-// Número de WhatsApp del colegio/admin que recibirá la notificación de compra (formato 569XXXXXXXX)
-const ADMIN_WHATSAPP = '569XXXXXXXX';
+/* ======================================================
+   CONFIGURACIÓN — pega aquí la URL de tu Apps Script (/exec)
+   ====================================================== */
+const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwUeCOxDxUajgTW7kvPV3xH3_w3OIbLIUJzXNBl7nC2HelL4dkGkLQaT54niFKMf0A/exec"; // termina en /exec
 
-let purchasesCache = [];
-let currentFilter = 'todas';
-let lastPurchase = null;
+const INGREDIENTES = ['Lechuga','Tomate','Choclo','Huevo duro'];
+const TIPOS = [
+  {id:'pollo', label:'Pollo', emoji:'🐔'},
+  {id:'carne', label:'Carne', emoji:'🥩'},
+  {id:'vegetariano', label:'Vegetariano', emoji:'🥬'},
+  {id:'atun', label:'Atún', emoji:'🐟'},
+];
 
-/* ============ NAVEGACIÓN ============ */
-document.querySelectorAll('nav.tabs button').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-    document.getElementById('view-'+btn.dataset.view).classList.add('active');
-    if(btn.dataset.view === 'juego'){
-      renderCalledGrid();
-      if(operatorUnlocked) renderNumberPad();
-    }
-  });
-});
+let currentStep = 0;
+let wraps = [];
+let wrapIdCounter = 0;
+let config = {
+  titular:'Patricia Bravo', rut:'16.859.492-5', banco:'Banco de Chile', tipoCuenta:'Cuenta Vista',
+  numeroCuenta:'00-075-84210-95', correoTitular:'patriciacbravoalcaino@gmail.com',
+  whatsappAdmin:'56969159984', precioMenu:'4990', fechaLimite:'2026-08-01T12:00:00', ventasAbiertas:'true'
+};
+let pedidoGuardado = null;
+let adminPedidos = [];
+let ADMIN_PASSWORD_CACHE = '';
+let rejectCode = null;
 
-/* ============ LLAMADAS AL BACKEND ============ */
-async function callBackend(action, payload){
-  if(!BACKEND_URL || BACKEND_URL.indexOf('PEGA_AQUI') !== -1){
-    throw new Error('Falta configurar BACKEND_URL en el código con la URL de tu Apps Script.');
-  }
-  const res = await fetch(BACKEND_URL, {
-    method:'POST',
-    headers:{'Content-Type':'text/plain;charset=utf-8'},
-    body: JSON.stringify({action, payload})
-  });
-  const json = await res.json();
-  if(!json.ok) throw new Error(json.error || 'Error desconocido');
-  return json.data;
+// ---------- Init ----------
+function newWrap(){
+  wrapIdCounter++;
+  return {id:'w'+wrapIdCounter, tipo:'', ingredientes:[], bebida:''};
 }
-
-/* ============ COPIAR DATOS TRANSFERENCIA ============ */
-function copyTransferData(){
-  const text = 'PATRICIA BRAVO ALCAINO\nRUT: 16.859.492-5\nBanco Estado\nCuenta Corriente\nN° 33000074697\nPatriciacbravoalcaino@gmail.com';
-  navigator.clipboard.writeText(text).then(showToast);
+function addWrap(){
+  wraps.push(newWrap());
+  renderWraps();
 }
-function showToast(){
-  const t = document.getElementById('copyToast');
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 1800);
+function removeWrap(id){
+  wraps = wraps.filter(w=>w.id!==id);
+  renderWraps();
 }
+if (wraps.length===0) wraps.push(newWrap());
 
-/* ============ PRECIO DINÁMICO ============ */
-const whatsappInput = document.getElementById('whatsapp');
-const cantidadBlock = document.getElementById('cantidadBlock');
-const cantidadInput = document.getElementById('cantidad');
-const priceBox = document.getElementById('priceBox');
-let isFirstPurchase = null;
-
-async function refreshPrice(){
-  const phone = whatsappInput.value.trim();
-  if(!/^\d{9}$/.test(phone)){
-    priceBox.innerHTML = 'Ingresa tu WhatsApp (9 dígitos) para calcular el precio.';
-    isFirstPurchase = null;
-    return;
-  }
-  priceBox.innerHTML = 'Calculando...';
-  try{
-    const r = await callBackend('checkFirst', {whatsapp: phone});
-    isFirstPurchase = r.esPrimeraCompra;
-    if(isFirstPurchase){
-      cantidadBlock.style.display='none';
-      priceBox.innerHTML = '🎉 ¡Primera compra! 7 cartones por <b>$5.000</b>';
-    } else {
-      cantidadBlock.style.display='block';
-      updateMultiPrice();
-    }
-  }catch(err){
-    priceBox.innerHTML = 'No se pudo calcular el precio: '+err.message;
-  }
-}
-function updateMultiPrice(){
-  const qty = parseInt(cantidadInput.value,10) || 0;
-  priceBox.innerHTML = qty+' cartón(es) x $1.000 = <b>$'+ (qty*1000).toLocaleString('es-CL') +'</b>';
-}
-whatsappInput.addEventListener('blur', refreshPrice);
-cantidadInput.addEventListener('input', updateMultiPrice);
-
-/* ============ ENVÍO DE COMPRA ============ */
-document.getElementById('purchaseForm').addEventListener('submit', async (e)=>{
-  e.preventDefault();
-  const errBox = document.getElementById('formErr');
-  errBox.textContent='';
-  const submitBtn = document.getElementById('submitBtn');
-  const payload = {
-    nombreComprador: document.getElementById('nombreComprador').value.trim(),
-    email: document.getElementById('email').value.trim(),
-    nombreAlumno: document.getElementById('nombreAlumno').value.trim(),
-    curso: document.getElementById('curso').value.trim(),
-    whatsapp: whatsappInput.value.trim(),
-    cantidad: cantidadInput.value
-  };
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)){
-    errBox.textContent = 'Ingresa un email válido.';
-    return;
-  }
-  if(!/^\d{9}$/.test(payload.whatsapp)){
-    errBox.textContent = 'El WhatsApp debe tener 9 dígitos.';
-    return;
-  }
-  submitBtn.disabled = true;
-  submitBtn.textContent = 'Enviando...';
-  try{
-    const r = await callBackend('submitPurchase', payload);
-    lastPurchase = Object.assign({}, payload, r);
-    showConfirmation(lastPurchase);
-    document.getElementById('formCardWrap').style.display='none';
-  }catch(err){
-    errBox.textContent = err.message;
-  }finally{
-    submitBtn.disabled = false;
-    submitBtn.textContent = '📢 Notificar compra';
-  }
-});
-
-function showConfirmation(p){
-  const box = document.getElementById('confirmBox');
-  const rangeTxt = p.desde === p.hasta ? ('BA-'+pad(p.desde)) : ('BA-'+pad(p.desde)+' al BA-'+pad(p.hasta));
-  const msg = encodeURIComponent(
-    `Hola! Soy ${p.nombreComprador}, apoderado/a de ${p.nombreAlumno} (${p.curso}). ` +
-    `Acabo de transferir $${p.monto.toLocaleString('es-CL')} por ${p.cantidad} cartones de BINGO ANDINO 2026 ` +
-    `(reserva ${p.id}). Quedo atento/a a la confirmación 🙏`
-  );
-  box.style.display='block';
-  box.innerHTML = `
-    <h2>¡Reserva creada!</h2>
-    <div class="range">${rangeTxt}</div>
-    <p>Monto a transferir: <b>$${p.monto.toLocaleString('es-CL')}</b></p>
-    <p><span class="badge pendiente">Pendiente de validación</span></p>
-    <a class="btn btn-wsp" href="https://wa.me/56${ADMIN_WHATSAPP.replace(/^56/,'')}?text=${msg}" target="_blank" rel="noopener">💬 Enviar comprobante por WhatsApp</a>
-    <p class="note">Cuando el colegio valide tu transferencia, podrás descargar tus cartones desde "¿Ya compraste?" en esta misma página, o te llegarán por WhatsApp.</p>
-  `;
-}
-function pad(n){ return String(n).padStart(4,'0'); }
-
-/* ============ CONSULTAR ESTADO (COMPRADOR) ============ */
-async function checkMyStatus(){
-  const phone = document.getElementById('statusPhone').value.trim();
-  const box = document.getElementById('statusResult');
-  if(!/^\d{9}$/.test(phone)){ box.innerHTML = '<p class="err">Ingresa un WhatsApp válido (9 dígitos).</p>'; return; }
-  box.innerHTML = '<p class="spinner">Buscando...</p>';
-  try{
-    const r = await callBackend('checkStatus', {whatsapp: phone});
-    const rangeTxt = r.desde === r.hasta ? ('BA-'+pad(r.desde)) : ('BA-'+pad(r.desde)+' al BA-'+pad(r.hasta));
-    let extra = '';
-    if(r.estado === 'aceptada'){
-      extra = `<button class="btn btn-secondary btn-sm" style="margin-top:8px;" onclick='downloadCardsPDF(${JSON.stringify(r)})'>📄 Descargar mis cartones (PDF)</button>`;
-    }
-    box.innerHTML = `
-      <div class="price-box" style="margin-top:12px;">
-        ${rangeTxt}<br>
-        <span class="badge ${r.estado}">${r.estado}</span><br>
-        ${extra}
-      </div>`;
-  }catch(err){
-    box.innerHTML = '<p class="err">'+err.message+'</p>';
-  }
-}
-
-/* ============ JUEGO EN VIVO: NÚMEROS CANTADOS ============ */
-const BINGO_LETTERS = ['B','I','N','G','O'];
-function letterForNumber(n){ return BINGO_LETTERS[Math.floor((n-1)/15)]; }
-
-let calledNumbers = [];
-try{ calledNumbers = JSON.parse(localStorage.getItem('bingoAndino2026_calledNumbers')||'[]'); }catch(e){ calledNumbers = []; }
-let operatorUnlocked = false;
-
-function saveCalled(){ localStorage.setItem('bingoAndino2026_calledNumbers', JSON.stringify(calledNumbers)); }
-
-function renderCalledGrid(){
-  const grid = document.getElementById('calledGrid');
-  grid.innerHTML='';
-  for(let n=1;n<=75;n++){
-    const d = document.createElement('div');
-    d.className = 'num-cell' + (calledNumbers.includes(n) ? ' called' : '');
-    d.textContent = letterForNumber(n)+n;
-    grid.appendChild(d);
-  }
-  document.getElementById('calledCount').textContent = calledNumbers.length;
-  const last = calledNumbers[calledNumbers.length-1];
-  document.getElementById('lastCalled').textContent = last ? (letterForNumber(last)+'-'+last) : '—';
-}
-
-function renderNumberPad(){
-  const pad = document.getElementById('numberPad');
-  pad.innerHTML='';
-  for(let n=1;n<=75;n++){
-    const d = document.createElement('div');
-    const called = calledNumbers.includes(n);
-    d.className = 'num-cell clickable' + (called?' called':'');
-    d.textContent = letterForNumber(n)+n;
-    if(!called) d.onclick = ()=>markCalled(n);
-    pad.appendChild(d);
-  }
-}
-
-function markCalled(n){
-  if(calledNumbers.includes(n)) return;
-  calledNumbers.push(n);
-  saveCalled();
-  renderCalledGrid();
-  renderNumberPad();
-}
-function undoLastCalled(){
-  calledNumbers.pop();
-  saveCalled();
-  renderCalledGrid();
-  renderNumberPad();
-}
-function resetGameConfirm(){
-  if(!confirm('¿Reiniciar el juego? Se borran todos los números cantados de este dispositivo.')) return;
-  calledNumbers = [];
-  saveCalled();
-  renderCalledGrid();
-  renderNumberPad();
-}
-
-async function operatorUnlock(){
-  const pass = document.getElementById('operatorPass').value;
-  const errBox = document.getElementById('operatorErr');
-  errBox.textContent='';
-  try{
-    await callBackend('listPurchases', {password: pass}); // reutiliza la misma clave de admin
-    adminPassword = adminPassword || pass;
-    operatorUnlocked = true;
-    document.getElementById('operatorLocked').style.display='none';
-    document.getElementById('operatorControls').style.display='block';
-    renderNumberPad();
-  }catch(err){
-    errBox.textContent = err.message;
-  }
-}
-
-/* ============ VERIFICADOR DE CARTÓN GANADOR ============ */
-function verifyCardUI(){
-  const raw = document.getElementById('verifyCardInput').value.trim();
-  const cardNum = parseInt(raw,10);
-  const box = document.getElementById('verifyResult');
-  if(!cardNum || cardNum<1 || cardNum>1000){
-    box.innerHTML='<p class="err">Ingresa un número de cartón válido (1 a 1000).</p>';
-    return;
-  }
-  const calledSet = new Set(calledNumbers);
-  const cols = generateCard(cardNum);
-  const marked = cols.map(col=>col.map(v=> v==='FREE' ? true : calledSet.has(v)));
-
-  const results = [];
-  for(let r=0;r<5;r++){
-    if([0,1,2,3,4].every(c=>marked[c][r])) results.push('Línea horizontal (fila '+(r+1)+')');
-  }
-  for(let c=0;c<5;c++){
-    if(marked[c].every(Boolean)) results.push('Línea vertical ('+BINGO_LETTERS[c]+')');
-  }
-  if([0,1,2,3,4].every(i=>marked[i][i])) results.push('Diagonal ↘');
-  if([0,1,2,3,4].every(i=>marked[i][4-i])) results.push('Diagonal ↙');
-  if(marked[0][0] && marked[4][0] && marked[0][4] && marked[4][4]) results.push('4 esquinas');
-  if(marked.every(col=>col.every(Boolean))) results.push('¡CARTÓN LLENO! 🎉');
-
-  let gridHtml = '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin:14px auto;max-width:280px;">';
-  for(let r=0;r<5;r++){
-    for(let c=0;c<5;c++){
-      const v = cols[c][r];
-      const isMarked = marked[c][r];
-      gridHtml += `<div style="aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:6px;font-weight:700;font-size:13px;border:1.5px solid #2B2016;background:${isMarked?'#2A6F77':'#fffdf8'};color:${isMarked?'#fff':'#2B2016'};">${v}</div>`;
-    }
-  }
-  gridHtml += '</div>';
-
-  box.innerHTML = `
-    <div class="price-box" style="margin-top:12px;">
-      <b>Cartón BA-${pad(cardNum)}</b>
-      ${gridHtml}
-      ${results.length ? results.map(r=>'<span class="badge aceptada" style="display:block;margin:4px 0;">✅ '+r+'</span>').join('') : '<p class="note">Aún no completa ningún patrón con los números cantados hasta ahora.</p>'}
-    </div>
-  `;
-}
-renderCalledGrid();
-
-/* ============ ADMIN: LOGIN ============ */
-let adminPassword = '';
-async function adminLogin(){
-  const pass = document.getElementById('adminPass').value;
-  const errBox = document.getElementById('loginErr');
-  errBox.textContent='';
-  try{
-    await callBackend('listPurchases', {password: pass}); // valida clave
-    adminPassword = pass;
-    document.getElementById('loginBox').style.display='none';
-    document.getElementById('adminPanel').style.display='block';
-    loadPurchases();
-  }catch(err){
-    errBox.textContent = err.message;
-  }
-}
-
-/* ============ ADMIN: CARGAR TABLA ============ */
-async function loadPurchases(){
-  document.getElementById('loadingMsg').style.display='block';
-  try{
-    const r = await callBackend('listPurchases', {password: adminPassword});
-    purchasesCache = r.rows;
-    updateStats(r);
-    renderTable();
-  }catch(err){
-    alert('Error cargando datos: '+err.message);
-  }finally{
-    document.getElementById('loadingMsg').style.display='none';
-  }
-}
-
-function updateStats(r){
-  const aceptadas = purchasesCache.filter(p=>p.estado==='aceptada');
-  const recaudado = aceptadas.reduce((s,p)=>s+Number(p.monto),0);
-  const vendidos = aceptadas.reduce((s,p)=>s+Number(p.cantidad),0);
-  const pendientes = purchasesCache.filter(p=>p.estado==='pendiente').length;
-  document.getElementById('statRecaudado').textContent = '$'+recaudado.toLocaleString('es-CL');
-  document.getElementById('statVendidos').textContent = vendidos;
-  document.getElementById('statDisponibles').textContent = r.disponibles;
-  document.getElementById('statPendientes').textContent = pendientes;
-}
-
-document.querySelectorAll('.filter-chip').forEach(chip=>{
-  chip.addEventListener('click', ()=>{
-    document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
-    chip.classList.add('active');
-    currentFilter = chip.dataset.estado;
-    renderTable();
-  });
-});
-document.getElementById('searchBox').addEventListener('input', renderTable);
-
-function renderTable(){
-  const q = document.getElementById('searchBox').value.toLowerCase();
-  const tbody = document.getElementById('tableBody');
-  tbody.innerHTML = '';
-  const filtered = purchasesCache.filter(p=>{
-    if(currentFilter!=='todas' && p.estado!==currentFilter) return false;
-    if(q && !(p.comprador+p.alumno+p.curso).toLowerCase().includes(q)) return false;
-    return true;
-  }).sort((a,b)=> new Date(b.fecha) - new Date(a.fecha));
-
-  filtered.forEach(p=>{
-    const rangeTxt = p.desde===p.hasta ? ('BA-'+pad(p.desde)) : ('BA-'+pad(p.desde)+' a '+pad(p.hasta));
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${p.id}</td>
-      <td>${new Date(p.fecha).toLocaleDateString('es-CL')}</td>
-      <td>${escapeHtml(p.comprador)}</td>
-      <td style="font-size:11.5px;">${escapeHtml(p.email||'—')}</td>
-      <td>${escapeHtml(p.alumno)}</td>
-      <td>${escapeHtml(p.curso)}</td>
-      <td>+56${p.whatsapp}</td>
-      <td>${rangeTxt}</td>
-      <td>$${Number(p.monto).toLocaleString('es-CL')}</td>
-      <td><span class="badge ${p.estado}">${p.estado}</span></td>
-      <td>
-        <div class="row-actions">
-          <select class="estado-select" id="sel-${p.id}">
-            <option value="pendiente" ${p.estado==='pendiente'?'selected':''}>Pendiente</option>
-            <option value="aceptada" ${p.estado==='aceptada'?'selected':''}>Aceptada</option>
-            <option value="rechazada" ${p.estado==='rechazada'?'selected':''}>Rechazada</option>
-          </select>
-          <button class="btn btn-secondary btn-sm" onclick="saveEstado('${p.id}')">Guardar</button>
-          <button class="btn btn-sm" style="background:var(--rech);color:#fff;" onclick="deleteOne('${p.id}')">🗑️</button>
-          ${p.estado==='aceptada' ? `
-            <button class="btn btn-ghost btn-sm" onclick='downloadCardsPDF(${JSON.stringify(p)})'>📄 PDF</button>
-            <button class="btn btn-wsp btn-sm" onclick='sendWhatsapp(${JSON.stringify(p)})'>💬</button>
-          ` : ''}
-        </div>
-      </td>
+function renderWraps(){
+  const c = document.getElementById('wrapsContainer');
+  c.innerHTML = '';
+  wraps.forEach((w, idx)=>{
+    const card = document.createElement('div');
+    card.className = 'wrap-card';
+    card.innerHTML = `
+      <div class="wrap-card-head">
+        <h3>Wrap ${idx+1}</h3>
+        ${wraps.length>1?`<button class="remove-wrap" onclick="removeWrap('${w.id}')">Eliminar este wrap</button>`:''}
+      </div>
+      <label style="font-weight:800;font-size:13px;color:var(--verde-oscuro);">Tipo de wrap</label>
+      <div class="choice-grid" style="margin-top:6px;">
+        ${TIPOS.map(t=>`<button type="button" class="choice-btn ${w.tipo===t.id?'selected':''}" onclick="setTipo('${w.id}','${t.id}')">${t.emoji} ${t.label}</button>`).join('')}
+      </div>
+      <label style="font-weight:800;font-size:13px;color:var(--verde-oscuro);">Ingredientes adicionales (opcional, máx. 3)</label>
+      <div class="ingr-counter" id="counter-${w.id}">Ingredientes seleccionados: ${w.ingredientes.length} de 3</div>
+      <div class="ingr-grid">
+        ${INGREDIENTES.map(ing=>{
+          const checked = w.ingredientes.includes(ing);
+          const disabled = !checked && w.ingredientes.length>=3;
+          return `<label class="ingr-chip ${checked?'checked':''} ${disabled?'disabled':''}">
+            <input type="checkbox" style="display:none;" ${checked?'checked':''} ${disabled?'disabled':''} onchange="toggleIngrediente('${w.id}','${ing}')">
+            ${ing}
+          </label>`;
+        }).join('')}
+      </div>
+      <div class="ingr-msg" id="ingrmsg-${w.id}">Puedes seleccionar un máximo de tres ingredientes.</div>
+      <div class="veg-warn" id="vegwarn-${w.id}">Selecciona al menos un ingrediente para preparar el wrap vegetariano.</div>
+      <label style="font-weight:800;font-size:13px;color:var(--verde-oscuro);">Bebida</label>
+      <div class="bebida-row" style="margin-top:6px;">
+        <button type="button" class="choice-btn ${w.bebida==='Jugo'?'selected':''}" style="flex:1;" onclick="setBebida('${w.id}','Jugo')">🧃 Jugo</button>
+        <button type="button" class="choice-btn ${w.bebida==='Agua'?'selected':''}" style="flex:1;" onclick="setBebida('${w.id}','Agua')">💧 Agua</button>
+      </div>
     `;
-    tbody.appendChild(tr);
+    c.appendChild(card);
   });
 }
-function escapeHtml(s){ return String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
-
-async function saveEstado(id){
-  const nuevoEstado = document.getElementById('sel-'+id).value;
-  try{
-    const r = await callBackend('updateStatus', {id, estado: nuevoEstado, password: adminPassword});
-    await loadPurchases();
-    if(r.emailWarning) alert(r.emailWarning);
-  }catch(err){
-    alert('Error: '+err.message);
-  }
+function setTipo(id, tipo){
+  const w = wraps.find(x=>x.id===id); w.tipo = tipo;
+  renderWraps();
 }
-
-function sendWhatsapp(p){
-  const rangeTxt = p.desde===p.hasta ? ('BA-'+pad(p.desde)) : ('BA-'+pad(p.desde)+' al BA-'+pad(p.hasta));
-  const msg = encodeURIComponent(
-    `Hola ${p.comprador}! Tu compra de BINGO ANDINO 2026 fue APROBADA ✅. `+
-    `Tus cartones son: ${rangeTxt}. Te adjunto el PDF para que los imprimas. ¡Gracias por apoyar a ${p.alumno}!`
-  );
-  window.open(`https://wa.me/56${p.whatsapp}?text=${msg}`, '_blank');
+function setBebida(id, bebida){
+  const w = wraps.find(x=>x.id===id); w.bebida = bebida;
+  renderWraps();
 }
-
-/* ============ ELIMINAR UNA COMPRA ============ */
-async function deleteOne(id){
-  if(!confirm('¿Eliminar la compra '+id+'? Esta acción no se puede deshacer.')) return;
-  try{
-    await callBackend('deletePurchase', {id, password: adminPassword});
-    await loadPurchases();
-  }catch(err){
-    alert('Error: '+err.message);
-  }
-}
-
-/* ============ RESETEAR TODO ============ */
-function openResetModal(){
-  document.getElementById('resetConfirmInput').value='';
-  document.getElementById('resetErr').textContent='';
-  document.getElementById('resetModalOverlay').style.display='flex';
-}
-function closeResetModal(){
-  document.getElementById('resetModalOverlay').style.display='none';
-}
-async function confirmResetAll(){
-  const val = document.getElementById('resetConfirmInput').value;
-  const errBox = document.getElementById('resetErr');
-  if(val !== 'BORRAR TODO'){
-    errBox.textContent = 'Debes escribir exactamente: BORRAR TODO';
-    return;
-  }
-  try{
-    await callBackend('resetAll', {password: adminPassword, confirmacion: val});
-    closeResetModal();
-    await loadPurchases();
-  }catch(err){
-    errBox.textContent = err.message;
-  }
-}
-
-/* ============ EXPORTAR EXCEL ============ */
-function exportExcel(){
-  const data = purchasesCache.map(p=>({
-    ID:p.id, Fecha:new Date(p.fecha).toLocaleString('es-CL'), Comprador:p.comprador, Email:p.email||'',
-    Alumno:p.alumno, Curso:p.curso, WhatsApp:'+56'+p.whatsapp, Cantidad:p.cantidad,
-    CartonDesde:'BA-'+pad(p.desde), CartonHasta:'BA-'+pad(p.hasta), Monto:p.monto, Estado:p.estado
-  }));
-  const ws = XLSX.utils.json_to_sheet(data);
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'Transacciones');
-  XLSX.writeFile(wb, 'BINGO_ANDINO_2026.xlsx');
-}
-
-/* ============ GENERACIÓN DE CARTONES (seed determinístico) ============ */
-function mulberry32(seed){
-  return function(){
-    seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
-    let t = Math.imul(seed ^ (seed>>>15), 1 | seed);
-    t = (t + Math.imul(t ^ (t>>>7), 61 | t)) ^ t;
-    return ((t ^ (t>>>14)) >>> 0) / 4294967296;
-  };
-}
-function generateCard(cardNumber){
-  const rng = mulberry32(cardNumber * 2654435761);
-  const ranges = [[1,15],[16,30],[31,45],[46,60],[61,75]];
-  const cols = ranges.map(([min,max])=>{
-    const pool = [];
-    for(let n=min;n<=max;n++) pool.push(n);
-    for(let i=pool.length-1;i>0;i--){
-      const j = Math.floor(rng()*(i+1));
-      [pool[i],pool[j]]=[pool[j],pool[i]];
+function toggleIngrediente(id, ing){
+  const w = wraps.find(x=>x.id===id);
+  if (w.ingredientes.includes(ing)){
+    w.ingredientes = w.ingredientes.filter(i=>i!==ing);
+  } else {
+    if (w.ingredientes.length>=3){
+      document.getElementById('ingrmsg-'+id).style.display='block';
+      return;
     }
-    return pool.slice(0,5);
-  });
-  cols[2][2] = 'FREE';
-  return cols;
+    w.ingredientes.push(ing);
+  }
+  renderWraps();
 }
 
-/* ============ PDF DE CARTONES ============ */
-function downloadCardsPDF(p){
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({unit:'mm', format:'a4'});
-  const letters = ['B','I','N','G','O'];
-  const colors = ['#C1502E','#E8A33D','#2A6F77','#8B2635','#1D4E54'];
-  let first = true;
+// ---------- Steps ----------
+const STEP_LABELS = ['','Alumno','Wraps','Contacto','Pago','Listo'];
+function renderStepper(){
+  const el = document.getElementById('stepperDots');
+  el.innerHTML = '';
+  for(let i=1;i<=5;i++){
+    const d = document.createElement('div');
+    d.className = 'dot' + (i<currentStep?' done':(i===currentStep?' active':''));
+    el.appendChild(d);
+  }
+}
+function showStep(n){
+  document.querySelectorAll('.step').forEach(s=>s.classList.add('hidden'));
+  document.getElementById('step-'+n).classList.remove('hidden');
+  const back = document.getElementById('backBtn');
+  const next = document.getElementById('nextBtn');
+  if(n===0){ back.classList.add('hidden'); next.classList.add('hidden'); }
+  else if(n===5){ back.classList.add('hidden'); next.classList.add('hidden'); }
+  else if(n===4){ back.classList.remove('hidden'); next.classList.add('hidden'); }
+  else { back.classList.remove('hidden'); next.classList.remove('hidden'); next.textContent='Continuar'; }
+  renderStepper();
+  window.scrollTo(0,0);
+}
+function goStep(n){
+  currentStep = n;
+  if(n===2) renderWraps();
+  if(n===4) renderResumen();
+  showStep(n);
+}
+function nextStep(){
+  if(!validateStep(currentStep)) return;
+  goStep(currentStep+1);
+}
+function prevStep(){ goStep(currentStep-1); }
 
-  for(let cardNum = p.desde; cardNum <= p.hasta; cardNum++){
-    if(!first) doc.addPage();
-    first = false;
-    const cols = generateCard(cardNum);
-
-    doc.setFillColor('#C1502E');
-    doc.rect(0,0,210,26,'F');
-    doc.setTextColor('#FFFFFF');
-    doc.setFont('helvetica','bold');
-    doc.setFontSize(20);
-    doc.text('BINGO ANDINO 2026', 105, 13, {align:'center'});
-    doc.setFontSize(11);
-    doc.text('Cartón BA-'+pad(cardNum), 105, 21, {align:'center'});
-
-    const gridSize = 130, startX = (210-gridSize)/2, startY = 45, cell = gridSize/5;
-
-    // Letras encabezado
-    doc.setFontSize(22);
-    for(let c=0;c<5;c++){
-      doc.setTextColor(colors[c]);
-      doc.text(letters[c], startX + c*cell + cell/2, startY-4, {align:'center'});
-    }
-
-    // Celdas
-    for(let row=0; row<5; row++){
-      for(let c=0; c<5; c++){
-        const x = startX + c*cell;
-        const y = startY + row*cell;
-        doc.setDrawColor('#2B2016');
-        doc.setLineWidth(0.4);
-        doc.rect(x, y, cell, cell);
-        const val = cols[c][row];
-        doc.setFontSize(val==='FREE' ? 10 : 16);
-        doc.setTextColor(val==='FREE' ? '#C1502E' : '#2B2016');
-        doc.setFont('helvetica', val==='FREE' ? 'bolditalic' : 'bold');
-        doc.text(String(val), x+cell/2, y+cell/2+3, {align:'center'});
+function validateStep(step){
+  clearErrors();
+  if(step===1){
+    const nombre = document.querySelector('#f-nombreAlumno input').value.trim();
+    const curso = document.querySelector('#f-curso input').value.trim();
+    let ok = true;
+    if(!nombre){ markInvalid('f-nombreAlumno'); ok=false; }
+    if(!curso){ markInvalid('f-curso'); ok=false; }
+    return ok;
+  }
+  if(step===2){
+    for(const w of wraps){
+      if(!w.tipo){ alert('Selecciona el tipo de wrap para el Wrap '+(wraps.indexOf(w)+1)); return false; }
+      if(!w.bebida){ alert('Selecciona la bebida para el Wrap '+(wraps.indexOf(w)+1)); return false; }
+      if(w.tipo==='vegetariano' && w.ingredientes.length===0){
+        document.getElementById('vegwarn-'+w.id).style.display='block';
+        return false;
       }
     }
+    return true;
+  }
+  if(step===3){
+    let ok = true;
+    const nombre = document.querySelector('#f-nombreApoderado input').value.trim();
+    const correo = document.querySelector('#f-correo input').value.trim();
+    const tel = document.querySelector('#f-telefono input').value.trim();
+    if(!nombre){ markInvalid('f-nombreApoderado'); ok=false; }
+    const correoRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if(!correoRegex.test(correo)){ markInvalid('f-correo'); ok=false; }
+    if(tel.length!==8){
+      document.getElementById('f-telefono').classList.add('invalid');
+      document.querySelector('#f-telefono .tel-wrap').classList.add('invalid');
+      ok=false;
+    }
+    return ok;
+  }
+  return true;
+}
+function clearErrors(){
+  document.querySelectorAll('.field').forEach(f=>f.classList.remove('invalid'));
+  document.querySelector('#f-telefono .tel-wrap')?.classList.remove('invalid');
+}
+function markInvalid(id){ document.getElementById(id).classList.add('invalid'); }
 
-    doc.setFont('helvetica','normal');
-    doc.setFontSize(10);
-    doc.setTextColor('#2B2016');
-    doc.text('Comprador: '+p.comprador, startX, startY+gridSize+12);
-    doc.text('Alumno/a: '+p.alumno+'  —  Curso: '+p.curso, startX, startY+gridSize+18);
+// ---------- Resumen / pago ----------
+function precioUnitario(){ return Number(config.precioMenu)||4990; }
+function fmtCLP(n){ return '$' + Number(n).toLocaleString('es-CL'); }
+
+function renderResumen(){
+  const c = document.getElementById('resumenWraps');
+  c.innerHTML = '';
+  wraps.forEach((w,idx)=>{
+    const div = document.createElement('div');
+    div.className = 'summary-card';
+    div.innerHTML = `<h4>Wrap ${idx+1}</h4>
+      <div class="summary-row"><span>Tipo</span><b>${cap(w.tipo)}</b></div>
+      <div class="summary-row"><span>Ingredientes</span><b>${w.ingredientes.length?w.ingredientes.join(', '):'Sin ingredientes adicionales'}</b></div>
+      <div class="summary-row"><span>Bebida</span><b>${w.bebida}</b></div>
+      <div class="summary-row"><span>Precio</span><b>${fmtCLP(precioUnitario())}</b></div>`;
+    c.appendChild(div);
+  });
+  const total = wraps.length * precioUnitario();
+  document.getElementById('totalAmt').textContent = fmtCLP(total);
+
+  document.getElementById('b-titular').textContent = config.titular;
+  document.getElementById('b-rut').textContent = config.rut;
+  document.getElementById('b-banco').textContent = config.banco;
+  document.getElementById('b-tipoCuenta').textContent = config.tipoCuenta;
+  document.getElementById('b-numeroCuenta').textContent = config.numeroCuenta;
+  document.getElementById('b-correoTitular').textContent = config.correoTitular;
+  document.getElementById('b-monto').textContent = fmtCLP(total);
+  const nombreAlumno = document.querySelector('#f-nombreAlumno input').value.trim();
+  const curso = document.querySelector('#f-curso input').value.trim();
+  document.getElementById('b-mensaje').textContent = `${nombreAlumno} + ${curso}`;
+}
+function cap(s){ return s ? s.charAt(0).toUpperCase()+s.slice(1) : ''; }
+
+function copiarDatos(){
+  const total = wraps.length * precioUnitario();
+  const nombreAlumno = document.querySelector('#f-nombreAlumno input').value.trim();
+  const curso = document.querySelector('#f-curso input').value.trim();
+  const texto = `Titular: ${config.titular}\nRUT: ${config.rut}\nBanco: ${config.banco}\nTipo de cuenta: ${config.tipoCuenta}\nN° de cuenta: ${config.numeroCuenta}\nCorreo: ${config.correoTitular}\nMonto: ${fmtCLP(total)}\nMensaje: ${nombreAlumno} + ${curso}`;
+  navigator.clipboard.writeText(texto).then(()=>{
+    const t = document.getElementById('copyToast');
+    t.style.display='block';
+    setTimeout(()=>t.style.display='none', 2500);
+  });
+}
+function toggleWaBtn(){
+  document.getElementById('waBtn').disabled = !document.getElementById('confirmTransferCheck').checked;
+}
+
+async function enviarPedido(){
+  const btn = document.getElementById('waBtn');
+  btn.disabled = true; btn.textContent = 'Guardando pedido...';
+
+  const nombreAlumno = document.querySelector('#f-nombreAlumno input').value.trim();
+  const curso = document.querySelector('#f-curso input').value.trim();
+  const nombreApoderado = document.querySelector('#f-nombreApoderado input').value.trim();
+  const correo = document.querySelector('#f-correo input').value.trim();
+  const telefono = '+56 9 ' + document.querySelector('#f-telefono input').value.trim();
+  const observaciones = document.querySelector('#step-3 textarea').value.trim();
+
+  const body = {
+    action:'crearPedido', nombreAlumno, curso, nombreApoderado, correo, telefono, observaciones,
+    wraps: wraps.map(w=>({tipo:w.tipo, ingredientes:w.ingredientes, bebida:w.bebida}))
+  };
+
+  let resultado;
+  try{
+    if(WEBAPP_URL.startsWith('http')){
+      const r = await fetch(WEBAPP_URL, {method:'POST', body: JSON.stringify(body)});
+      resultado = await r.json();
+    } else {
+      // modo demo sin backend conectado
+      resultado = {ok:true, codigo:'GUA-DEMO', total: wraps.length*precioUnitario(), cantidadTotal: wraps.length};
+    }
+  }catch(e){
+    resultado = {ok:true, codigo:'GUA-DEMO', total: wraps.length*precioUnitario(), cantidadTotal: wraps.length};
   }
 
-  doc.save('BINGO_ANDINO_2026_'+p.id+'.pdf');
+  if(resultado.error){
+    alert('No se pudo registrar el pedido: '+resultado.error);
+    btn.disabled=false; btn.textContent='📲 Enviar comprobante por WhatsApp';
+    return;
+  }
+
+  pedidoGuardado = {...resultado, nombreAlumno, curso, nombreApoderado, correo, telefono};
+
+  // armar mensaje whatsapp
+  let detalle = '';
+  wraps.forEach((w,i)=>{
+    detalle += `\nWrap ${i+1}:\nTipo: ${cap(w.tipo)}\nIngredientes: ${w.ingredientes.length?w.ingredientes.join(', '):'Sin ingredientes adicionales'}\nBebida: ${w.bebida}\n`;
+  });
+  const msg = `Hola, envío el comprobante correspondiente al pedido:\n\nCódigo: ${resultado.codigo}\nAlumno: ${nombreAlumno}\nCurso: ${curso}\n${detalle}\nCantidad total: ${resultado.cantidadTotal}\nTotal transferido: ${fmtCLP(resultado.total)}\n\nNombre del apoderado: ${nombreApoderado}\nCorreo: ${correo}\nTeléfono: ${telefono}\n\nAdjunto comprobante de transferencia.`;
+
+  const waNum = config.whatsappAdmin || '56969159984';
+  const url = `https://wa.me/${waNum}?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+
+  // mostrar confirmación
+  document.getElementById('finalCodigo').textContent = resultado.codigo;
+  document.getElementById('finalDetail').innerHTML = `
+    <div class="row"><span>Alumno</span><b>${nombreAlumno}</b></div>
+    <div class="row"><span>Cantidad de wraps</span><b>${resultado.cantidadTotal}</b></div>
+    <div class="row"><span>Total</span><b>${fmtCLP(resultado.total)}</b></div>
+    <div class="row"><span>Estado</span><b>Pendiente de revisión</b></div>
+  `;
+  goStep(5);
 }
+
+// ---------- Cargar config al iniciar ----------
+async function cargarConfig(){
+  if(!WEBAPP_URL.startsWith('http')) { pintarConfigHome(); return; }
+  try{
+    const r = await fetch(WEBAPP_URL+'?action=config');
+    const d = await r.json();
+    if(d.ok) config = d.config;
+  }catch(e){}
+  pintarConfigHome();
+}
+function pintarConfigHome(){
+  document.getElementById('precioMenuLabel').textContent = fmtCLP(config.precioMenu)+' por menú';
+  const box = document.getElementById('deadlineBox');
+  const abiertas = config.ventasAbiertas !== 'false';
+  const limite = config.fechaLimite ? new Date(config.fechaLimite) : null;
+  const cerrado = !abiertas || (limite && new Date() > limite);
+  if(limite || !abiertas){
+    box.classList.remove('hidden');
+    if(cerrado){
+      box.classList.add('closed');
+      box.textContent = 'Pedidos cerrados';
+      document.getElementById('startBtn').disabled = true;
+      document.getElementById('startBtn').textContent = 'Pedidos cerrados';
+    } else {
+      box.textContent = `Puedes realizar tu pedido hasta el ${limite.toLocaleDateString('es-CL')} a las ${limite.toLocaleTimeString('es-CL',{hour:'2-digit',minute:'2-digit'})}.`;
+    }
+  }
+}
+
+// ---------- Admin / Cliente toggle ----------
+function goAdmin(){
+  document.getElementById('clientApp').classList.add('hidden');
+  document.getElementById('adminApp').classList.remove('hidden');
+}
+function goClient(){
+  document.getElementById('adminApp').classList.add('hidden');
+  document.getElementById('clientApp').classList.remove('hidden');
+}
+
+async function loginAdmin(){
+  const pass = document.getElementById('adminPass').value;
+  ADMIN_PASSWORD_CACHE = pass;
+  await cargarPedidos();
+}
+
+async function cargarPedidos(){
+  if(!WEBAPP_URL.startsWith('http')){
+    // modo demo
+    adminPedidos = [];
+    document.getElementById('adminLogin').classList.add('hidden');
+    document.getElementById('adminBody').classList.remove('hidden');
+    llenarFormConfig();
+    renderKpis(); renderTabla();
+    return;
+  }
+  try{
+    const r = await fetch(WEBAPP_URL+'?action=pedidos&password='+encodeURIComponent(ADMIN_PASSWORD_CACHE));
+    const d = await r.json();
+    if(d.error){
+      document.getElementById('adminLoginError').style.display='block';
+      return;
+    }
+    adminPedidos = d.pedidos;
+    document.getElementById('adminLogin').classList.add('hidden');
+    document.getElementById('adminBody').classList.remove('hidden');
+    llenarFormConfig();
+    renderKpis(); renderTabla();
+  }catch(e){
+    document.getElementById('adminLoginError').style.display='block';
+  }
+}
+
+function llenarFormConfig(){
+  Object.keys(config).forEach(k=>{
+    const el = document.getElementById('cfg-'+k);
+    if(el) el.value = config[k];
+  });
+}
+
+function renderKpis(){
+  const confirmados = adminPedidos.filter(p=>p.estadoPago==='Transferencia confirmada');
+  const wrapsFlat = confirmados.flatMap(p=>p.wraps||[]);
+  const kpis = [
+    {lbl:'Total wraps vendidos', num: wrapsFlat.length},
+    {lbl:'Pollo', num: wrapsFlat.filter(w=>w.tipo==='pollo').length},
+    {lbl:'Carne', num: wrapsFlat.filter(w=>w.tipo==='carne').length},
+    {lbl:'Vegetariano', num: wrapsFlat.filter(w=>w.tipo==='vegetariano').length},
+    {lbl:'Atún', num: wrapsFlat.filter(w=>w.tipo==='atun').length},
+    {lbl:'Jugos', num: wrapsFlat.filter(w=>w.bebida==='Jugo').length},
+    {lbl:'Aguas', num: wrapsFlat.filter(w=>w.bebida==='Agua').length},
+    {lbl:'Recaudado', num: fmtCLP(confirmados.reduce((s,p)=>s+Number(p.total||0),0))},
+    {lbl:'Pedidos confirmados', num: confirmados.length},
+    {lbl:'Pendientes', num: adminPedidos.filter(p=>p.estadoPago==='Comprobante enviado – pendiente de revisión').length},
+    {lbl:'Entregados', num: adminPedidos.filter(p=>p.estadoEntrega==='Entregado').length},
+  ];
+  document.getElementById('kpiGrid').innerHTML = kpis.map(k=>`<div class="kpi"><div class="num">${k.num}</div><div class="lbl">${k.lbl}</div></div>`).join('');
+}
+
+function badgeClass(estado){
+  if(estado==='Transferencia confirmada') return 'verde';
+  if(estado==='Transferencia rechazada'||estado==='Pedido cancelado') return 'rojo';
+  return 'amarillo';
+}
+
+function renderTabla(){
+  const busqueda = (document.getElementById('fBusqueda')?.value||'').toLowerCase();
+  const fPago = document.getElementById('fEstadoPago')?.value;
+  const fEntrega = document.getElementById('fEstadoEntrega')?.value;
+  const body = document.getElementById('tablaBody');
+  const filtrados = adminPedidos.filter(p=>{
+    if(fPago && p.estadoPago!==fPago) return false;
+    if(fEntrega && p.estadoEntrega!==fEntrega) return false;
+    if(busqueda){
+      const blob = [p.codigo,p.nombreAlumno,p.correo,p.telefono].join(' ').toLowerCase();
+      if(!blob.includes(busqueda)) return false;
+    }
+    return true;
+  });
+  body.innerHTML = filtrados.map(p=>{
+    const wrapsTxt = (p.wraps||[]).map(w=>`${cap(w.tipo)}${w.ingredientes.length?' ('+w.ingredientes.join(', ')+')':''}/${w.bebida}`).join(' · ');
+    const fecha = p.fechaHora ? new Date(p.fechaHora).toLocaleString('es-CL') : '';
+    return `<tr>
+      <td class="mono">${p.codigo}</td><td>${fecha}</td><td>${p.nombreAlumno}</td><td>${p.curso}</td>
+      <td>${p.nombreApoderado}</td><td>${p.correo}</td><td>${p.telefono}</td><td>${wrapsTxt}</td>
+      <td>${p.cantidadTotal}</td><td>${fmtCLP(p.total)}</td>
+      <td><span class="badge ${badgeClass(p.estadoPago)}">${p.estadoPago}</span></td>
+      <td>${p.estadoEntrega}</td><td>${p.observaciones||''}</td>
+      <td class="row-actions">
+        <button class="act-confirm" onclick="confirmarTransferencia('${p.codigo}')">Confirmar</button>
+        <button class="act-reject" onclick="abrirRechazo('${p.codigo}')">Rechazar</button>
+        <button class="act-entrega" onclick="marcarEntregado('${p.codigo}')">Entregado</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+async function llamarBackend(body){
+  if(!WEBAPP_URL.startsWith('http')){ alert('Conecta primero el WEBAPP_URL de Apps Script para guardar cambios reales.'); return {ok:true}; }
+  const r = await fetch(WEBAPP_URL, {method:'POST', body: JSON.stringify(body)});
+  return r.json();
+}
+
+async function confirmarTransferencia(codigo){
+  const d = await llamarBackend({action:'confirmarTransferencia', codigo, password:ADMIN_PASSWORD_CACHE});
+  if(d.error) return alert(d.error);
+  await cargarPedidos();
+}
+function abrirRechazo(codigo){
+  rejectCode = codigo;
+  document.getElementById('rejectModal').classList.add('open');
+}
+function closeModal(){ document.getElementById('rejectModal').classList.remove('open'); }
+async function confirmarRechazo(){
+  const motivo = document.getElementById('rejectMotivo').value.trim();
+  const d = await llamarBackend({action:'rechazarTransferencia', codigo:rejectCode, motivo, password:ADMIN_PASSWORD_CACHE});
+  closeModal();
+  if(d.error) return alert(d.error);
+  await cargarPedidos();
+}
+async function marcarEntregado(codigo){
+  const d = await llamarBackend({action:'marcarEntrega', codigo, estado:'Entregado', password:ADMIN_PASSWORD_CACHE});
+  if(d.error) return alert(d.error);
+  await cargarPedidos();
+}
+
+async function guardarConfig(){
+  const nuevaConfig = {};
+  Object.keys(config).forEach(k=>{
+    const el = document.getElementById('cfg-'+k);
+    if(el) nuevaConfig[k] = el.value;
+  });
+  const d = await llamarBackend({action:'setConfig', config:nuevaConfig, password:ADMIN_PASSWORD_CACHE});
+  if(d.error) return alert(d.error);
+  config = {...config, ...nuevaConfig};
+  document.getElementById('cfgToast').style.display='block';
+  setTimeout(()=>document.getElementById('cfgToast').style.display='none', 2500);
+}
+
+function exportCSV(){
+  const headers = ['codigo','fechaHora','nombreAlumno','curso','nombreApoderado','correo','telefono','wraps','cantidadTotal','total','estadoPago','estadoEntrega','observaciones'];
+  const rows = adminPedidos.map(p=>[
+    p.codigo,p.fechaHora,p.nombreAlumno,p.curso,p.nombreApoderado,p.correo,p.telefono,
+    (p.wraps||[]).map(w=>`${w.tipo}(${w.ingredientes.join('+')||'sin'})/${w.bebida}`).join(' | '),
+    p.cantidadTotal,p.total,p.estadoPago,p.estadoEntrega,p.observaciones
+  ]);
+  let csv = headers.join(',')+'\n'+rows.map(r=>r.map(v=>`"${String(v||'').replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'pedidos_wraps_guayacan.csv';
+  link.click();
+}
+
+// ---------- Boot ----------
+renderWraps();
+cargarConfig();
+showStep(0);
 </script>
 </body>
 </html>
